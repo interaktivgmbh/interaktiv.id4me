@@ -12,6 +12,6 @@ def extend_userschema():
     if not portal_memberdata.hasProperty('id4me_tokens'):
         portal_memberdata.manage_addProperty(
             id="id4me_tokens",
-            value=[],
-            type="lines"
+            value="{}",
+            type="text"
         )

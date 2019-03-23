@@ -1,0 +1,8 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="thokas.id4me">
+
+    <utility factory="thokas.id4me.utilities.authentication.AuthenticationUtility"
+             provides="thokas.id4me.utilities.navigation.IAuthenticationUtility"/>
+
+</configure>

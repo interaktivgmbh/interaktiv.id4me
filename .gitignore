@@ -1,2 +1,4 @@
 .eggs/
 *.pyc
+thokas.id4me.egg-info/
+*.mo

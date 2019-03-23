@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="thokas.id4me">
+
+    <browser:page
+        name="id4me-login"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        class="thokas.id4me.views.login.ID4meLoginView"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        name="id4me-validate"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        class="thokas.id4me.views.validate.ID4meValidateView"
+        permission="zope2.View"
+    />
+
+</configure>

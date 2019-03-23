@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="thokas.id4me">
+
+    <i18n:registerTranslations directory="locales" />
+
+    <include package=".registry" />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="ID4me"
+        directory="profiles/default"
+        description="Installs the thokas.id4me package"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        post_handler="thokas.id4me.setuphandlers.setup_after"
+    />
+
+    <plone:static
+        type="theme"
+        directory="static"
+        name="thokas.id4me"
+    />
+
+</configure>

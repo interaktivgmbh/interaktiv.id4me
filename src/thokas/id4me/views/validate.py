@@ -49,7 +49,7 @@ class ID4meValidateView(BrowserView):
         code = self.request.form.get('code')
 
         if state == 'login':
-            user = self.auth_util.verify_user_login(code, state)
+            user = self.auth_util.verify_user_login(code)
             if user:
                 acl_users = getToolByName(self.context, 'acl_users')
 
@@ -63,7 +63,7 @@ class ID4meValidateView(BrowserView):
                     api.portal.get_navigation_root(context=self.context)
                 )
         elif state == 'register':
-            user = self.auth_util.register_user(code, state)
+            user = self.auth_util.register_user(code)
             acl_users = getToolByName(self.context, 'acl_users')
 
             # noinspection PyProtectedMember

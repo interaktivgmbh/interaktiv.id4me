@@ -11,14 +11,10 @@ def save_authority_registration(auth_name, auth_content):
 
     auth_name = safe_unicode(auth_name)
 
-    if ia_data:
-        if auth_name not in ia_data:
-            ia_data[auth_name] = safe_unicode(auth_content)
-        else:
-            raise NotImplementedError('Case of already existing IA entry')
-    else:
+    if ia_data is None:
         ia_data = dict()
-        ia_data[auth_name] = safe_unicode(auth_content)
+
+    ia_data[auth_name] = safe_unicode(auth_content)
 
     api.portal.set_registry_record(
         name="ia_data",

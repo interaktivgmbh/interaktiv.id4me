@@ -1,5 +1,6 @@
 from plone import api
 from thokas.id4me.registry.id4me import IID4meSchema
+from Products.CMFPlone.utils import safe_unicode
 
 
 def save_authority_registration(auth_name, auth_content):
@@ -8,10 +9,16 @@ def save_authority_registration(auth_name, auth_content):
         interface=IID4meSchema
     )
 
-    if auth_name not in ia_data:
-        ia_data[auth_name] = auth_content
+    auth_name = safe_unicode(auth_name)
+
+    if ia_data:
+        if auth_name not in ia_data:
+            ia_data[auth_name] = safe_unicode(auth_content)
+        else:
+            raise NotImplementedError('Case of already existing IA entry')
     else:
-        raise NotImplementedError('Case of already existing IA entry')
+        ia_data = dict()
+        ia_data[auth_name] = safe_unicode(auth_content)
 
     api.portal.set_registry_record(
         name="ia_data",
@@ -27,6 +34,6 @@ def load_authority_registration(auth_name):
     )
 
     if auth_name in ia_data:
-        return ia_data[auth_name]
+        return ia_data[auth_name].encode('UTF-8')
     else:
         raise NotImplementedError('IA not registered')

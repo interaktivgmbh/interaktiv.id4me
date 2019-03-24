@@ -21,6 +21,8 @@ class ID4meView(BrowserView):
         if 'login' in self.request.form:
             self._generate_url('login')
         elif 'register' in self.request.form:
+            if not self.user_can_register():
+                raise Forbidden()
             self._generate_url('register')
         elif 'connect' in self.request.form:
             if checkPermission('cmf.SetOwnPassword', self.context):
@@ -58,3 +60,7 @@ class ID4meView(BrowserView):
     @staticmethod
     def is_logged_in():
         return not api.user.is_anonymous()
+
+    @staticmethod
+    def user_can_register():
+        return api.portal.get_registry_record(name='plone.enable_self_reg')

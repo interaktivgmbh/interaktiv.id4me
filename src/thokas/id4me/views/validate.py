@@ -63,6 +63,9 @@ class ID4meValidateView(BrowserView):
                     api.portal.get_navigation_root(context=self.context)
                 )
         elif state == 'register':
+            if not api.portal.get_registry_record(name='plone.enable_self_reg'):
+                raise Forbidden()
+
             user = self.auth_util.register_user(code)
             acl_users = getToolByName(self.context, 'acl_users')
 

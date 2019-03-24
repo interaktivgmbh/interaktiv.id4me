@@ -23,30 +23,27 @@ class IID4meSchema(Interface):
         ),
         required=False
     )
-    logo = RelationChoice(
+    logo = schema.Text(
         title=_(
             u'label_custom_logo',
             default=u'Custom Logo'
         ),
         description=_(u'help_custom_logo'),
         required=False,
-        source=CatalogSource(portal_type=['Image']),
     )
-    policy = RelationChoice(
+    policy = schema.Text(
         title=_(
             u'label_policy_url',
-            default=u'Policy document'
+            default=u'Policy document URL'
         ),
         required=False,
-        source=CatalogSource(),
     )
-    tos = RelationChoice(
+    tos = schema.Text(
         title=_(
             u'label_tos_url',
-            default=u'TOS document'
+            default=u'TOS document URL'
         ),
         required=False,
-        source=CatalogSource(),
     )
 
     ia_data = schema.Dict(
@@ -66,5 +63,6 @@ class IID4meSchema(Interface):
                 default=u"Data providede from Identity Agent"
             ),
         ),
+        default=dict(),
         required=False
     )

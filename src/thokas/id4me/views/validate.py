@@ -7,9 +7,16 @@ from thokas.id4me.utilities.authentication import get_authentication_utility
 from zExceptions import BadRequest, Forbidden
 from zope.security import checkPermission
 from thokas.id4me import _
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.interface import alsoProvides
 
 
 class ID4meValidateView(BrowserView):
+
+    def __init__(self, context, request):
+        alsoProvides(request, IDisableCSRFProtection)
+        super(ID4meValidateView, self).__init__(context, request)
+
     @property
     def auth_util(self):
         return get_authentication_utility()
@@ -72,7 +79,6 @@ class ID4meValidateView(BrowserView):
                 self.request.response.redirect(
                     navigation_root.absolute_url() + '/@@id4me'
                 )
-
         elif state == 'register':
             if not api.portal.get_registry_record(name='plone.enable_self_reg'):
                 raise Forbidden()
@@ -99,8 +105,8 @@ class ID4meValidateView(BrowserView):
         elif state == 'connect':
             if api.user.is_anonymous():
                 raise Forbidden('No user logged in')
-            if checkPermission('cmf.SetOwnPassword', self.context):
-                raise Forbidden('No permission to set own password')
+            # if checkPermission('cmf.SetOwnPassword', self.context):
+            #    raise Forbidden('No permission to set own password')
             user = api.user.get_current()
 
             self.auth_util.connect_user_login(user=user, code=code)

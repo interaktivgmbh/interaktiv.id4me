@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-import json
 from random import choice
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from id4me_rp_client import (
     ID4meClient, OIDCApplicationType, ID4meClaimsRequest,
     ID4meClaimRequestProperties, OIDCClaim
 )
 from plone import api
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 # noinspection PyProtectedMember
 from thokas.id4me import _
 from thokas.id4me.id4me_functions import load_authority_registration
@@ -17,7 +18,6 @@ from zope.component import getUtility
 # noinspection PyUnresolvedReferences
 from zope.globalrequest import getRequest
 from zope.interface import Interface
-from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 
 class IAuthenticationUtility(Interface):
@@ -93,12 +93,13 @@ class AuthenticationUtility(object):
 
         client.get_idtoken(context=ctx, code=code)
 
-        unique_key = ctx.iss + ctx.sub
+        unique_key = safe_unicode(ctx.iss + ctx.sub)
+        user_id = safe_unicode(user.getId())
 
         mapping = self.__get_registry_value('user_mapping')
 
         if unique_key not in mapping:
-            mapping[unique_key] = user.getId()
+            mapping[unique_key] = user_id
 
         api.portal.set_registry_record(
             name='user_mapping',

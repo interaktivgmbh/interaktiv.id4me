@@ -17,4 +17,12 @@
       permission="zope2.View"
   />
 
+  <!-- ID4me Control Panel -->
+  <browser:page
+      name="id4me-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.ID4meControlPanel"
+      permission="cmf.ManagePortal"
+      />
+
 </configure>

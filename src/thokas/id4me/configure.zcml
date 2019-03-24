@@ -10,6 +10,7 @@
     <include package=".registry" />
     <include package=".views" />
     <include package=".utilities" />
+    <include package=".controlpanel" />
 
     <genericsetup:registerProfile
         name="default"

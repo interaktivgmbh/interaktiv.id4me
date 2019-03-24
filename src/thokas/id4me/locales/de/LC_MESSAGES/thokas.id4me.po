@@ -70,3 +70,39 @@ msgstr "Registrieren"
 
 msgid "label_connect"
 msgstr "Account verknüpfen"
+
+######################################
+#### Controlpanel
+######################################
+msgid "ID4me Settings"
+msgstr "ID4me Einstellungen"
+
+msgid "label_client_name"
+msgstr "Client Name"
+
+msgid "help_client_name"
+msgstr "Anzeigename auf der Seite des ID4Me-Anbieters"
+
+msgid "label_preferred_client_id"
+msgstr "Client-ID"
+
+msgid "help_preferred_client_id"
+msgstr ""
+
+msgid "label_custom_logo"
+msgstr "Logo"
+
+msgid "help_custom_logo"
+msgstr "Logo auf der Seite des ID4Me-Anbieters"
+
+msgid "label_policy_url"
+msgstr "Datenschutz"
+
+msgid "help_policy_url"
+msgstr "Pfad zur Datenschutz-Bestimmung"
+
+msgid "label_tos_url"
+msgstr "Nutzungsbedingungen"
+
+msgid "help_tos_url"
+msgstr "Pfad zu den Nutzungsbedingungen"

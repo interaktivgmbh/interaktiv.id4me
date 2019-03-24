@@ -8,9 +8,7 @@
 <body>
 
 <metal:title fill-slot="content-title">
-  <metal:title define-macro="content-title">
-    <h1>ID4me</h1>
-  </metal:title>
+  <metal:title define-macro="content-title"/>
 </metal:title>
 
 <metal:content-core fill-slot="content-core">

@@ -31,6 +31,7 @@ setup(
         'unittest2',
         'plone.testing',
         'plone.app.testing',
+        'Products.BeakerSessionDataManager',
         'id4me-rp-client'
     ],
     extras_require={'test': [

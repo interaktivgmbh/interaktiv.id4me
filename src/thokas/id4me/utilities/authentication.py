@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
-from plone import api
-from zope.component import getUtility
-from zope.interface import Interface
-from thokas.id4me.id4me_functions import save_authority_registration
-from thokas.id4me.id4me_functions import load_authority_registration
-from thokas.id4me.registry.id4me import IID4meSchema
+import json
+from random import choice
+
+from Products.CMFCore.utils import getToolByName
 from id4me_rp_client import (
     ID4meClient, OIDCApplicationType, ID4meClaimsRequest,
     ID4meClaimRequestProperties, OIDCClaim
 )
+from plone import api
 # noinspection PyProtectedMember
 from thokas.id4me import _
+from thokas.id4me.id4me_functions import load_authority_registration
+from thokas.id4me.id4me_functions import save_authority_registration
+from thokas.id4me.registry.id4me import IID4meSchema
+from zope.component import getUtility
+# noinspection PyUnresolvedReferences
+from zope.globalrequest import getRequest
+from zope.interface import Interface
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 
 
 class IAuthenticationUtility(Interface):
@@ -18,40 +25,149 @@ class IAuthenticationUtility(Interface):
 
 
 def get_authentication_utility():
-    return getUtility(AuthenticationUtility)
+    return getUtility(IAuthenticationUtility)
 
 
 class AuthenticationUtility(object):
 
-    def generate_authentication_url(self, agent_identifier):
+    def generate_authentication_url(self, agent_identifier, mode):
         client = self.setup_id4me_client()
         ctx = client.get_rp_context(id4me=agent_identifier)
 
-        link = client.get_consent_url(
-            ctx,
-            state=agent_identifier,
-            claimsrequest=ID4meClaimsRequest(
+        session = self.__get_session()
+
+        claimsrequest = None
+        if mode == 'register':
+            claimsrequest = ID4meClaimsRequest(
                 userinfo_claims=self._generate_claims()
             )
+
+        link = client.get_consent_url(
+            ctx,
+            state=mode,
+            claimsrequest=claimsrequest
         )
+
+        session.set('id4me_authentication', (
+            ctx.nonce,
+            agent_identifier
+        ))
 
         return link
 
-    def validate_authentication(self, code, state):
+    def verify_user_login(self, code):
         client = self.setup_id4me_client()
-        ctx = client.get_rp_context(id4me=state)
+
+        session = self.__get_session()
+
+        id4me_authentication = session.get('id4me_authentication', ('', ''))
+
+        ctx = client.get_rp_context(id4me=id4me_authentication[1])
+        ctx.nonce = id4me_authentication[0]
 
         client.get_idtoken(context=ctx, code=code)
 
+        mapping = self.__get_registry_value('user_mapping')
+
+        unique_key = ctx.iss + ctx.sub
+
+        user = None
+
+        if unique_key in mapping:
+            user_id = mapping[unique_key]
+            user = api.user.get(user_id=user_id)
+
+        return user
+
+    def connect_user_login(self, user, code):
+        client = self.setup_id4me_client()
+
+        session = self.__get_session()
+
+        id4me_authentication = session.get('id4me_authentication', ('', ''))
+        del session['id4me_authentication']
+
+        ctx = client.get_rp_context(id4me=id4me_authentication[1])
+        ctx.nonce = id4me_authentication[0]
+
+        client.get_idtoken(context=ctx, code=code)
+
+        unique_key = ctx.iss + ctx.sub
+
+        mapping = self.__get_registry_value('user_mapping')
+
+        if unique_key not in mapping:
+            mapping[unique_key] = user.getId()
+
+        api.portal.set_registry_record(
+            name='user_mapping',
+            interface=IID4meSchema,
+            value=mapping
+        )
+
+    def register_user(self, code):
+        client = self.setup_id4me_client()
+
+        session = self.__get_session()
+
+        id4me_authentication = session.get('id4me_authentication', ('', ''))
+
+        ctx = client.get_rp_context(id4me=id4me_authentication[1])
+        ctx.nonce = id4me_authentication[0]
+
+        client.get_idtoken(context=ctx, code=code)
+
+        userinfo = client.get_user_info(context=ctx)
+
+        normalizer = getUtility(IIDNormalizer)
+        username = normalizer.normalize(userinfo.get('name'))
+
+        user = api.user.create(
+            email=userinfo.get('email'),
+            username=username,
+            properties=dict(
+                fullname=userinfo.get('name', '')
+            )
+        )
+
+        return user
+
+    @staticmethod
+    def __get_session():
+        portal = api.portal.get()
+        sdm = getToolByName(portal, 'session_data_manager')
+        session = sdm.getSessionData(create=True)
+
+        return session
+
+    @staticmethod
+    def _get_session_value(session, key):
+        if hasattr(session, '_container'):
+            # noinspection PyProtectedMember
+            if key in session._container:
+                # noinspection PyProtectedMember
+                return session._container[key]
+        if key in session:
+            return session[key]
+        return None
+
+    @staticmethod
+    def _generate_random_key():
+        # generate list with all alphanumeric lower characters
+        letters = [chr(x) for x in range(48, 58) + range(97, 123)]
+        # noinspection PyUnusedLocal
+        return "".join([choice(letters) for i in range(12)])
+
     @staticmethod
     def _generate_claims():
-        portal = api.portal.get_navigation_root()
+        portal = api.portal.get()
         translator = portal.translate
         reasons = {
             'name': translator(_(u'reason_name')),
             'email': translator(_(u'reason_email')),
             'email_verified': translator(_(u'reason_email_verified')),
             'birthdate': translator(_(u'reason_birthdate'))
+            # ToDo: extend with picture and locale Claim
         }
         return {
             OIDCClaim.name: ID4meClaimRequestProperties(
@@ -82,39 +198,39 @@ class AuthenticationUtility(object):
 
     @staticmethod
     def __get_policy():
-        policy_reference = api.portal.get_registry_record(
+        policy_url = api.portal.get_registry_record(
             name='policy',
             interface=IID4meSchema
         )
-        if policy_reference:
-            if not policy_reference.isBroken():
-                policy = policy_reference.to_object
-                if policy:
-                    return policy.absolute_url()
+        if policy_url:
+            return policy_url
         return None
 
     @staticmethod
     def __get_tos():
-        tos_reference = api.portal.get_registry_record(
+        tos_link = api.portal.get_registry_record(
             name='policy',
             interface=IID4meSchema
         )
-        if tos_reference:
-            if not tos_reference.isBroken():
-                tos = tos_reference.to_object
-                if tos:
-                    return tos.absolute_url()
+        if tos_link:
+            return tos_link
         return None
 
+    def __get_client_name(self):
+        return self.__get_registry_value('client_name')
+
+    def __get_client_id(self):
+        return self.__get_registry_value('preferred_client_id')
+
     @staticmethod
-    def __get_client_name():
+    def __get_registry_value(name):
         return api.portal.get_registry_record(
-            name='client_name',
+            name=name,
             interface=IID4meSchema
         )
 
     def setup_id4me_client(self):
-        portal = api.portal.get_navigation_root()
+        portal = api.portal.get()
         validation_url = portal.absolute_url() + '/@@id4me-validate'
 
         return ID4meClient(
@@ -123,8 +239,10 @@ class AuthenticationUtility(object):
             app_type=OIDCApplicationType.web,
             validate_url=validation_url,
             client_name=self.__get_client_name(),
+            preferred_client_id=self.__get_client_id(),
             logo_url=self.__get_logo(),
             policy_url=self.__get_policy(),
             tos_url=self.__get_tos(),
+            requireencryption=False,
             private_jwks_json=ID4meClient.generate_new_private_keys_set()
         )

@@ -14,3 +14,14 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: thokas.id4me\n"
 
+msgid "reason_name"
+msgstr "Damit man sie beim Namen nennen kann"
+
+msgid "reason_email"
+msgstr "Damit man den Account anlegen kann"
+
+msgid "reason_email_verified"
+msgstr "Wir benötigen eine verifizierte Email, ansonsten müssten wir diese selbst verifizieren"
+
+msgid "reason_birthdate"
+msgstr "Damit man dir gratulieren kann"

@@ -9,7 +9,7 @@
 
 <metal:title fill-slot="content-title">
   <metal:title define-macro="content-title">
-    ID4me Login
+    ID4me connect Account
   </metal:title>
 </metal:title>
 
@@ -18,7 +18,7 @@
   <form action="${context/absolute_url}/@@id4me-login" method="POST">
     <label for="ia-identifier">Identity Agent Identifier</label>
     <input id="ia-identifier" type="text" name="identifier" value=""/>
-    <button type="submit" name="submit">Login</button>
+    <button type="submit" name="connect">Connect</button>
   </form>
 </metal:content-core>
 </metal:content-core>

@@ -17,7 +17,6 @@
         directory="profiles/default"
         description="Installs the thokas.id4me package"
         provides="Products.GenericSetup.interfaces.EXTENSION"
-        post_handler="thokas.id4me.setuphandlers.setup_after"
     />
 
     <plone:static

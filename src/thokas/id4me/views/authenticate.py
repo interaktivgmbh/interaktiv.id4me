@@ -2,7 +2,9 @@
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from thokas.id4me.utilities.authentication import get_authentication_utility
-from zExceptions import BadRequest
+from zExceptions import BadRequest, Forbidden
+from plone import api
+from zope.security import checkPermission
 
 
 class ID4meView(BrowserView):
@@ -17,6 +19,11 @@ class ID4meView(BrowserView):
             self._generate_url('login')
         elif 'register' in self.request.form:
             self._generate_url('register')
+        elif 'connect' in self.request.form:
+            if checkPermission('cmf.SetOwnPassword', self.context):
+                self._generate_url('connect')
+            else:
+                raise Forbidden()
 
         return self.template(self)
 
@@ -30,12 +37,6 @@ class ID4meView(BrowserView):
             )
             self.request.response.redirect(url)
 
-
-class ID4meConnectView(ID4meView):
-    template = ViewPageTemplateFile('templates/connect.pt')
-
-    def __call__(self):
-        if 'connect' in self.request.form:
-            self._generate_url('connect')
-
-        return self.template(self)
+    @staticmethod
+    def is_logged_in():
+        return not api.user.is_anonymous()

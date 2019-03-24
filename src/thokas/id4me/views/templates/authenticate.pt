@@ -15,11 +15,12 @@
 
 <metal:content-core fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-  <form action="${context/absolute_url}/@@id4me-login" method="POST">
+  <form action="${context/absolute_url}/@@id4me" method="POST">
     <label for="ia-identifier">Identity Agent Identifier</label>
     <input id="ia-identifier" type="text" name="identifier" value=""/>
-    <button type="submit" name="submit">Login</button>
-    <button type="submit" name="register">Register</button>
+    <button type="submit" name="submit" tal:condition="not:view/is_logged_in">Login</button>
+    <button type="submit" name="register" tal:condition="not:view/is_logged_in">Register</button>
+    <button type="submit" name="connect" tal:condition="view/is_logged_in">Connect</button>
   </form>
 </metal:content-core>
 </metal:content-core>

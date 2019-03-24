@@ -7,11 +7,10 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from thokas.id4me.utilities.authentication import get_authentication_utility
 from zExceptions import BadRequest, Forbidden
+from zope.security import checkPermission
 
 
 class ID4meValidateView(BrowserView):
-    template = ViewPageTemplateFile('templates/validate.pt')
-
     @property
     def auth_util(self):
         return get_authentication_utility()
@@ -52,7 +51,9 @@ class ID4meValidateView(BrowserView):
             )
         elif state == 'connect':
             if api.user.is_anonymous():
-                raise Forbidden()
+                raise Forbidden('No user logged in')
+            if checkPermission('cmf.SetOwnPassword', self.context):
+                raise Forbidden('No permission to set own password')
             user = api.user.get_current()
 
             self.auth_util.connect_user_login(user=user, code=code)
@@ -61,4 +62,5 @@ class ID4meValidateView(BrowserView):
                 api.portal.get_navigation_root(context=self.context)
             )
 
-        return self.template(self)
+        # ToDo: handle Case
+        raise BadRequest('no state given')

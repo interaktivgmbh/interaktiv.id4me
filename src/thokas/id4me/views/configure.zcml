@@ -11,13 +11,6 @@
   />
 
   <browser:page
-      name="id4me-connect"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
-      class="thokas.id4me.views.authenticate.ID4meConnectView"
-      permission="cmf.SetOwnPassword"
-  />
-
-  <browser:page
       name="id4me-validate"
       for="plone.app.layout.navigation.interfaces.INavigationRoot"
       class="thokas.id4me.views.validate.ID4meValidateView"

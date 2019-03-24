@@ -8,6 +8,8 @@
     <i18n:registerTranslations directory="locales" />
 
     <include package=".registry" />
+    <include package=".views" />
+    <include package=".utilities" />
 
     <genericsetup:registerProfile
         name="default"

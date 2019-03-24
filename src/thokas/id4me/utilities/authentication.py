@@ -61,6 +61,7 @@ class AuthenticationUtility(object):
         session = self.__get_session()
 
         id4me_authentication = session.get('id4me_authentication', ('', ''))
+        del session['id4me_authentication']
 
         ctx = client.get_rp_context(id4me=id4me_authentication[1])
         ctx.nonce = id4me_authentication[0]

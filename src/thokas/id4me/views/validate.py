@@ -62,6 +62,17 @@ class ID4meValidateView(BrowserView):
                 self.request.response.redirect(
                     api.portal.get_navigation_root(context=self.context)
                 )
+            else:
+                # noinspection PyArgumentList
+                messages.add(
+                    translator(_(u'message_no_user_connected')),
+                    type='error'
+                )
+
+                self.request.response.redirect(
+                    api.portal.get_navigation_root(context=self.context)
+                )
+
         elif state == 'register':
             if not api.portal.get_registry_record(name='plone.enable_self_reg'):
                 raise Forbidden()

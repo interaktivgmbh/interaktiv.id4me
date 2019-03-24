@@ -56,6 +56,9 @@ msgstr "Du hast keine ID4me angegeben."
 msgid "message_invalid_domain_provided"
 msgstr "Die angegebene ID4me-Domain ${agent} hat keinen OpenID-Eintrag"
 
+msgid "message_no_user_connected"
+msgstr "Es wurde kein Benutzer für deine ID4me gefunden."
+
 ######################################
 #### Authentication Form
 ######################################

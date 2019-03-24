@@ -17,7 +17,9 @@ class ID4meLoginView(BrowserView):
             agent_identifier = self.request.form.get('identifier', '')
             if not agent_identifier:
                 raise BadRequest('no agent identifier given')
-            url = self.authentication_util.generate_authentication_url()
+            url = self.authentication_util.generate_authentication_url(
+                agent_identifier
+            )
             self.request.response.redirect(url)
 
         return self.template(self)

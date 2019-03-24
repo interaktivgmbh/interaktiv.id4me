@@ -15,10 +15,10 @@
 
 <metal:content-core fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-  <form action="" method="POST">
+  <form action="${context/absolute_url}/@@id4me-login" method="POST">
     <label for="ia-identifier">Identity Agent Identifier</label>
     <input id="ia-identifier" type="text" name="identifier" value=""/>
-    <button type="submit">Login</button>
+    <button type="submit" name="submit">Login</button>
   </form>
 </metal:content-core>
 </metal:content-core>

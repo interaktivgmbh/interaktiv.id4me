@@ -14,6 +14,9 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: thokas.id4me\n"
 
+######################################
+#### Reasons for Claims
+######################################
 msgid "reason_name"
 msgstr "Damit man sie beim Namen nennen kann"
 
@@ -25,3 +28,45 @@ msgstr "Wir benötigen eine verifizierte Email, ansonsten müssten wir diese sel
 
 msgid "reason_birthdate"
 msgstr "Damit man dir gratulieren kann"
+
+######################################
+#### Status Messages
+######################################
+msgid "message_account_created"
+msgstr "Account ${user_id} erfolgreich erstellt."
+
+msgid "message_login_successful"
+msgstr "Login erfolgreich."
+
+msgid "message_login_connected"
+msgstr "Account wurde erfolgreich mit dem ID4me Agent ${agent} verknüpft."
+
+msgid "message_login_failed"
+msgstr "Login fehlgeschlagen. Grund: ${reason}"
+
+msgid "message_register_failed"
+msgstr "Registrierung fehlgeschlagen. Grund: ${reason}"
+
+msgid "message_connect_failed"
+msgstr "Verküpfung fehlgeschlagen. Grund: ${reason}"
+
+msgid "message_no_domain_provided"
+msgstr "Du hast keine ID4me angegeben."
+
+msgid "message_invalid_domain_provided"
+msgstr "Die angegebene ID4me-Domain ${agent} hat keinen OpenID-Eintrag"
+
+######################################
+#### Authentication Form
+######################################
+msgid "label_id4me_domain"
+msgstr "ID4Me Domain"
+
+msgid "label_login"
+msgstr "Login"
+
+msgid "label_register"
+msgstr "Registrieren"
+
+msgid "label_connect"
+msgstr "Account verknüpfen"

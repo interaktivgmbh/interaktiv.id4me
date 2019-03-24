@@ -9,18 +9,25 @@
 
 <metal:title fill-slot="content-title">
   <metal:title define-macro="content-title">
-    ID4me
+    <h1>ID4me</h1>
   </metal:title>
 </metal:title>
 
 <metal:content-core fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-  <form action="${context/absolute_url}/@@id4me" method="POST">
-    <label for="ia-identifier">Identity Agent Identifier</label>
-    <input id="ia-identifier" type="text" name="identifier" value=""/>
-    <button type="submit" name="submit" tal:condition="not:view/is_logged_in">Login</button>
-    <button type="submit" name="register" tal:condition="not:view/is_logged_in">Register</button>
-    <button type="submit" name="connect" tal:condition="view/is_logged_in">Connect</button>
+  <form class="pat-formautofocus" action="${context/absolute_url}/@@id4me" method="POST">
+    <div class="field">
+      <label for="id4me-domain-field" i18n:translate="label_id4me_domain">ID4me Domain</label>
+      <input id="id4me-domain-field" type="text" name="id4me-domain" required="required" value=""/>
+    </div>
+    <div class="buttons" tal:condition="not:view/is_logged_in">
+      <button class="context" type="submit" name="submit" i18n:translate="label_login">Login</button>
+      <span i18n:translate="or" i18n:domain="plone">or</span>
+      <button class="context" type="submit" name="register" i18n:translate="label_register">Register</button>
+    </div>
+    <div class="buttons" tal:condition="view/is_logged_in">
+      <button class="context" type="submit" name="connect" i18n:translate="label_connect">Connect</button>
+    </div>
   </form>
 </metal:content-core>
 </metal:content-core>

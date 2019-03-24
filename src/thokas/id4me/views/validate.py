@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
@@ -7,6 +6,7 @@ from plone import api
 from thokas.id4me.utilities.authentication import get_authentication_utility
 from zExceptions import BadRequest, Forbidden
 from zope.security import checkPermission
+from thokas.id4me import _
 
 
 class ID4meValidateView(BrowserView):
@@ -16,26 +16,20 @@ class ID4meValidateView(BrowserView):
 
     def __call__(self):
         state = self.request.form.get('state')
+        messages = IStatusMessage(self.request)
+        translator = self.context.translate
         if 'error' in self.request.form:
-            messager = IStatusMessage(self.request)
-            if state == 'login':
-                # noinspection PyArgumentList
-                messager.addStatusMessage(
-                    'Login: Connection not possbile',
-                    type='error'
-                )
-            elif state == 'register':
-                # noinspection PyArgumentList
-                messager.addStatusMessage(
-                    'Login: Connection not possbile',
-                    type='error'
-                )
-            elif state == 'connect':
-                # noinspection PyArgumentList
-                messager.addStatusMessage(
-                    'Login: Connection not possbile',
-                    type='error'
-                )
+            messages = IStatusMessage(self.request)
+            reason = self.request.form.get('error')
+
+            # noinspection PyArgumentList
+            messages.add(
+                translator(
+                    _(u'message_%s_failed' % state),
+                    mapping={"reason": reason}
+                ),
+                type='error'
+            )
 
             portal = api.portal.get_navigation_root(self.context)
             self.request.response.redirect(
@@ -59,6 +53,12 @@ class ID4meValidateView(BrowserView):
                     self.request.response
                 )
 
+                # noinspection PyArgumentList
+                messages.add(
+                    translator(_(u'message_login_successful')),
+                    type='error'
+                )
+
                 self.request.response.redirect(
                     api.portal.get_navigation_root(context=self.context)
                 )
@@ -70,6 +70,15 @@ class ID4meValidateView(BrowserView):
             acl_users.session._setupSession(
                 user.getId(),
                 self.request.response
+            )
+
+            # noinspection PyArgumentList
+            messages.add(
+                translator(
+                    _(u'message_account_created'),
+                    mapping={'user_id': user.getId()}
+                ),
+                type='error'
             )
 
             self.request.response.redirect(
@@ -84,9 +93,19 @@ class ID4meValidateView(BrowserView):
 
             self.auth_util.connect_user_login(user=user, code=code)
 
+            # noinspection PyArgumentList
+            messages.add(
+                translator(
+                    _(u'message_login_connected'),
+                    # ToDo: get Identity Agent information
+                    mapping={'agent': 'NOT_FOUND'}
+                ),
+                type='info'
+            )
+
             self.request.response.redirect(
                 api.portal.get_navigation_root(context=self.context)
             )
-
-        # ToDo: handle Case
-        raise BadRequest('no state given')
+        else:
+            # ToDo: handle Case
+            raise BadRequest('no state given')

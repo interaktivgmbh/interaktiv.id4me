@@ -1,6 +1,6 @@
+from Products.CMFPlone.utils import safe_unicode
 from plone import api
 from thokas.id4me.registry.id4me import IID4meSchema
-from Products.CMFPlone.utils import safe_unicode
 
 
 def save_authority_registration(auth_name, auth_content):
@@ -35,5 +35,5 @@ def load_authority_registration(auth_name):
 
     if auth_name in ia_data:
         return ia_data[auth_name].encode('UTF-8')
-    else:
-        raise NotImplementedError('IA not registered')
+
+    return None

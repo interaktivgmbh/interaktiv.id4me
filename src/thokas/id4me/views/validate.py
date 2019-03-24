@@ -18,6 +18,7 @@ class ID4meValidateView(BrowserView):
         state = self.request.form.get('state')
         messages = IStatusMessage(self.request)
         translator = self.context.translate
+        navigation_root = api.portal.get_navigation_root(context=self.context)
         if 'error' in self.request.form:
             messages = IStatusMessage(self.request)
             reason = self.request.form.get('error')
@@ -31,9 +32,8 @@ class ID4meValidateView(BrowserView):
                 type='error'
             )
 
-            portal = api.portal.get_navigation_root(self.context)
             self.request.response.redirect(
-                portal.absolute_url() + '/@@id4me'
+                navigation_root.absolute_url() + '/@@id4me'
             )
             return
 
@@ -60,7 +60,7 @@ class ID4meValidateView(BrowserView):
                 )
 
                 self.request.response.redirect(
-                    api.portal.get_navigation_root(context=self.context)
+                    navigation_root.absolute_url()
                 )
             else:
                 # noinspection PyArgumentList
@@ -70,7 +70,7 @@ class ID4meValidateView(BrowserView):
                 )
 
                 self.request.response.redirect(
-                    api.portal.get_navigation_root(context=self.context)
+                    navigation_root.absolute_url() + '/@@id4me'
                 )
 
         elif state == 'register':
@@ -95,9 +95,7 @@ class ID4meValidateView(BrowserView):
                 type='error'
             )
 
-            self.request.response.redirect(
-                api.portal.get_navigation_root(context=self.context)
-            )
+            self.request.response.redirect(navigation_root.absolute_url())
         elif state == 'connect':
             if api.user.is_anonymous():
                 raise Forbidden('No user logged in')
@@ -117,9 +115,7 @@ class ID4meValidateView(BrowserView):
                 type='info'
             )
 
-            self.request.response.redirect(
-                api.portal.get_navigation_root(context=self.context)
-            )
+            self.request.response.redirect(navigation_root.absolute_url())
         else:
             # ToDo: handle Case
             raise BadRequest('no state given')

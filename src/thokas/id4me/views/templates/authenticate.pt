@@ -20,12 +20,12 @@
       <label for="id4me-domain-field" i18n:translate="label_id4me_domain">ID4me Domain</label>
       <input id="id4me-domain-field" type="text" name="id4me-domain" required="required" value=""/>
     </div>
-    <div class="buttons" tal:condition="not:view/is_logged_in">
+    <div class="formControls" tal:condition="not:view/is_logged_in">
       <button class="context" type="submit" name="submit" i18n:translate="label_login">Login</button>
       <span i18n:translate="or" i18n:domain="plone">or</span>
       <button class="context" type="submit" name="register" i18n:translate="label_register">Register</button>
     </div>
-    <div class="buttons" tal:condition="view/is_logged_in">
+    <div class="formControls" tal:condition="view/is_logged_in">
       <button class="context" type="submit" name="connect" i18n:translate="label_connect">Connect</button>
     </div>
   </form>

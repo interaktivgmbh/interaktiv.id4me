@@ -76,7 +76,7 @@ class AuthenticationUtility(object):
 
         if unique_key in mapping:
             user_id = mapping[unique_key]
-            user = api.user.get(user_id=user_id)
+            user = api.user.get(userid=user_id)
 
         return user
 

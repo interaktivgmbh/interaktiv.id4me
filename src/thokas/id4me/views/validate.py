@@ -63,7 +63,7 @@ class ID4meValidateView(BrowserView):
                 # noinspection PyArgumentList
                 messages.add(
                     translator(_(u'message_login_successful')),
-                    type='error'
+                    type='info'
                 )
 
                 self.request.response.redirect(

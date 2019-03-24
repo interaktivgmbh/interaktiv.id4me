@@ -19,7 +19,7 @@
       <input id="id4me-domain-field" type="text" name="id4me-domain" required="required" value=""/>
     </div>
     <div class="formControls" tal:condition="not:view/is_logged_in">
-      <button class="context" type="submit" name="submit" i18n:translate="label_login">Login</button>
+      <button class="context" type="submit" name="login" i18n:translate="label_login">Login</button>
       <span i18n:translate="or" i18n:domain="plone" tal:condition="view/user_can_register">or</span>
       <button class="context" type="submit" name="register" i18n:translate="label_register" tal:condition="view/user_can_register">Register</button>
     </div>

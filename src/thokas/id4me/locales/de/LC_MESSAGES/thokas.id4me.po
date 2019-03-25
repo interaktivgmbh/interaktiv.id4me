@@ -59,6 +59,9 @@ msgstr "Die angegebene ID4me-Domain ${agent} hat keinen OpenID-Eintrag"
 msgid "message_no_user_connected"
 msgstr "Es wurde kein Benutzer für deine ID4me gefunden."
 
+msgid "message_data_resetted"
+msgstr "Logindaten wurden zurückgesetzt."
+
 ######################################
 #### Authentication Form
 ######################################
@@ -79,6 +82,9 @@ msgstr "Account verknüpfen"
 ######################################
 msgid "ID4me Settings"
 msgstr "ID4me Einstellungen"
+
+msgid "Reset ia data"
+msgstr "Lösche ID4Me-Agenten"
 
 msgid "label_client_name"
 msgstr "Client Name"

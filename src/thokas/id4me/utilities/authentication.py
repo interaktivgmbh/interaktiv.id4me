@@ -18,6 +18,7 @@ from zope.component import getUtility
 # noinspection PyUnresolvedReferences
 from zope.globalrequest import getRequest
 from zope.interface import Interface
+from Products.CMFCore.Expression import Expression, getExprContext
 
 
 class IAuthenticationUtility(Interface):
@@ -222,25 +223,32 @@ class AuthenticationUtility(object):
             portal = api.portal.get()
             return portal.absolute_url() + '/@@site-logo'
 
-    @staticmethod
-    def __get_policy():
+    def __get_policy(self):
         policy_url = api.portal.get_registry_record(
             name='policy',
             interface=IID4meSchema
         )
         if policy_url:
-            return policy_url
+            return self._evaluate_expression(policy_url)
         return None
 
-    @staticmethod
-    def __get_tos():
+    def __get_tos(self):
         tos_link = api.portal.get_registry_record(
             name='policy',
             interface=IID4meSchema
         )
         if tos_link:
-            return tos_link
+            return self._evaluate_expression(tos_link)
         return None
+
+    @staticmethod
+    def _evaluate_expression(expression):
+        portal = api.portal.get()
+        expression = Expression(expression)
+
+        expression_context = getExprContext(portal)
+
+        return expression(expression_context)
 
     def __get_client_name(self):
         client_name = self.__get_registry_value('client_name')

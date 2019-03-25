@@ -33,29 +33,31 @@ class ID4meView(BrowserView):
         return self.template(self)
 
     def _generate_url(self, mode):
-            id4me_domain = self.request.form.get('id4me-domain', '')
-            messages = IStatusMessage(self.request)
-            translator = self.context.translate
-            if not id4me_domain:
-                messages.add(
-                    translator(
-                        _(u'message_no_domain_provided')
+        id4me_domain = self.request.form.get('id4me-domain', '')
+        messages = IStatusMessage(self.request)
+        translator = self.context.translate
+        if not id4me_domain:
+            messages.add(
+                translator(
+                    _(u'message_no_domain_provided')
+                )
+            )
+            return None
+        try:
+            url = self.auth_util.generate_authentication_url(
+                id4me_domain,
+                mode=mode
+            )
+            self.request.response.redirect(url)
+        except ID4meDNSResolverException:
+            messages.add(
+                translator(
+                    _(
+                        u'message_invalid_domain_provided',
+                        mapping={u'agent': id4me_domain}
                     )
                 )
-                return None
-            try:
-                url = self.auth_util.generate_authentication_url(
-                    id4me_domain,
-                    mode=mode
-                )
-                self.request.response.redirect(url)
-            except ID4meDNSResolverException:
-                messages.add(
-                    translator(
-                        _(u'message_invalid_domain_provided'),
-                        mapping={"agent": id4me_domain}
-                    )
-                )
+            )
 
     @staticmethod
     def is_logged_in():

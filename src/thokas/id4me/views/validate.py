@@ -34,8 +34,11 @@ class ID4meValidateView(BrowserView):
             # noinspection PyArgumentList
             messages.add(
                 translator(
-                    _(u'message_%s_failed' % state),
-                    mapping={"reason": reason}
+                    _(
+                        u'message_%s_failed' % state,
+                        mapping={u'reason': reason}
+                    ),
+
                 ),
                 type='error'
             )
@@ -99,10 +102,12 @@ class ID4meValidateView(BrowserView):
             # noinspection PyArgumentList
             messages.add(
                 translator(
-                    _(u'message_account_created'),
-                    mapping={'user_id': user.getId()}
+                    _(
+                        u'message_account_created',
+                        mapping={u'user_id': user.getId()}
+                    )
                 ),
-                type='error'
+                type='info'
             )
 
             self.request.response.redirect(navigation_root.absolute_url())
@@ -116,9 +121,11 @@ class ID4meValidateView(BrowserView):
             # noinspection PyArgumentList
             messages.add(
                 translator(
-                    _(u'message_login_connected'),
-                    # ToDo: get Identity Agent information
-                    mapping={'agent': 'NOT_FOUND'}
+                    _(
+                        u'message_login_connected',
+                        # ToDo: get Identity Agent information
+                        mapping={u'agent': 'NOT_FOUND'}
+                    )
                 ),
                 type='info'
             )

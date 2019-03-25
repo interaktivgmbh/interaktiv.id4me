@@ -94,6 +94,8 @@ class AuthenticationUtility(object):
 
         client.get_idtoken(context=ctx, code=code)
 
+        self._set_user_connection(user=user, iss=ctx.iss, sub=ctx.sub)
+
     def register_user(self, code):
         client = self.setup_id4me_client()
 
@@ -246,7 +248,7 @@ class AuthenticationUtility(object):
         portal = api.portal.get()
         expression = Expression(expression)
 
-        expression_context = getExprContext(portal)
+        expression_context = getExprContext(context=portal)
 
         return expression(expression_context)
 

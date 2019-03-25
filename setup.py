@@ -10,7 +10,7 @@ setup(
     long_description="",
     classifiers=[
         "Environment :: Web Environment",
-        "Fraemwork :: Plone",
+        "Framework :: Plone",
         'Framework :: Plone :: 5.1',
         "Operating System :: OS Independent",
         "Programming Language :: Python",

@@ -11,8 +11,8 @@ from plone import api
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 # noinspection PyProtectedMember
 from thokas.id4me import _
-from thokas.id4me.id4me_functions import load_authority_registration
-from thokas.id4me.id4me_functions import save_authority_registration
+from thokas.id4me.functions import load_authority_registration
+from thokas.id4me.functions import save_authority_registration
 from thokas.id4me.registry.id4me import IID4meSchema
 from zope.component import getUtility
 # noinspection PyUnresolvedReferences

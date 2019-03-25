@@ -1,6 +1,2 @@
-graft src/PACKAGE_NAMESPACE
-graft docs
-include *.rst
-include *.GPL
-include *.txt
+graft src/thokas.id4me
 global-exclude *.pyc

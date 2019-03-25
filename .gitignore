@@ -2,3 +2,5 @@
 *.pyc
 thokas.id4me.egg-info/
 *.mo
+dist/
+build/

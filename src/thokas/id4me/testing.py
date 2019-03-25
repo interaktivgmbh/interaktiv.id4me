@@ -13,7 +13,6 @@ os.environ['PLONE_CSRF_DISABLED'] = 'true'
 
 
 class ThokasID4meLayer(PloneSandboxLayer):
-
     defaultBases = (PLONE_FIXTURE,)
     products_to_import = [
         'thokas.id4me',
@@ -35,7 +34,7 @@ class ThokasID4meLayer(PloneSandboxLayer):
             applyProfile(portal, product_name + ':default')
 
     def tearDownZope(self, app):
-        z2.uninstallProduct(app, 'collective.MockMailHost')
+        pass
 
 
 THOKAS_ID4ME_FIXTURE = ThokasID4meLayer()

@@ -3,12 +3,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from plone import api
-from plone.i18n.normalizer.interfaces import IIDNormalizer
 from plone.protect.interfaces import IDisableCSRFProtection
 from thokas.id4me import _
 from thokas.id4me.utilities.authentication import get_authentication_utility
 from zExceptions import BadRequest, Forbidden
-from zope.component import getUtility
 from zope.interface import alsoProvides
 
 
@@ -87,9 +85,7 @@ class ID4meValidateView(BrowserView):
             if not api.portal.get_registry_record(name='plone.enable_self_reg'):
                 raise Forbidden()
 
-            userinfo = self.auth_util.get_userinfo(code)
-
-            user = self._create_user(userinfo)
+            user = self.auth_util.register_user(code)
 
             acl_users = getToolByName(self.context, 'acl_users')
 
@@ -134,32 +130,3 @@ class ID4meValidateView(BrowserView):
         else:
             # ToDo: handle Case
             raise BadRequest('no state given')
-
-    @staticmethod
-    def _create_user(userinfo):
-        normalizer = getUtility(IIDNormalizer)
-        username = normalizer.normalize(userinfo.get('name'))
-
-        try:
-            user = api.user.create(
-                email=userinfo.get('email'),
-                username=username,
-                properties=dict(
-                    fullname=userinfo.get('name', '')
-                )
-            )
-        except ValueError:
-            email = userinfo.get('email')
-            email_name = email.split('@')[0]
-            username = normalizer.normalize(
-                userinfo.get('name') + email_name
-            )
-            user = api.user.create(
-                email=userinfo.get('email'),
-                username=username,
-                properties=dict(
-                    fullname=userinfo.get('name', '')
-                )
-            )
-
-        return user

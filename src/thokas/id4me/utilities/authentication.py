@@ -8,6 +8,7 @@ from id4me_rp_client import (
     ID4meClaimRequestProperties, OIDCClaim
 )
 from plone import api
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 # noinspection PyProtectedMember
 from thokas.id4me import _
 from thokas.id4me.id4me_functions import load_authority_registration
@@ -92,21 +93,7 @@ class AuthenticationUtility(object):
 
         client.get_idtoken(context=ctx, code=code)
 
-        unique_key = safe_unicode(ctx.iss + ctx.sub)
-        user_id = safe_unicode(user.getId())
-
-        mapping = self.__get_registry_value('user_mapping')
-
-        if unique_key not in mapping:
-            mapping[unique_key] = user_id
-
-        api.portal.set_registry_record(
-            name='user_mapping',
-            interface=IID4meSchema,
-            value=mapping
-        )
-
-    def get_userinfo(self, code):
+    def register_user(self, code):
         client = self.setup_id4me_client()
 
         session = self.__get_session()
@@ -120,7 +107,56 @@ class AuthenticationUtility(object):
         client.get_idtoken(context=ctx, code=code)
 
         userinfo = client.get_user_info(context=ctx)
-        return userinfo
+
+        user = self._create_user(userinfo)
+
+        self._set_user_connection(user, ctx.iss, ctx.sub)
+
+        return user
+
+    def _set_user_connection(self, user, iss, sub):
+        unique_key = safe_unicode(iss + sub)
+        user_id = safe_unicode(user.getId())
+
+        mapping = self.__get_registry_value('user_mapping')
+
+        if unique_key not in mapping:
+            mapping[unique_key] = user_id
+
+        api.portal.set_registry_record(
+            name='user_mapping',
+            interface=IID4meSchema,
+            value=mapping
+        )
+
+    @staticmethod
+    def _create_user(userinfo):
+        normalizer = getUtility(IIDNormalizer)
+        username = normalizer.normalize(userinfo.get('name'))
+
+        try:
+            user = api.user.create(
+                email=userinfo.get('email'),
+                username=username,
+                properties=dict(
+                    fullname=userinfo.get('name', '')
+                )
+            )
+        except ValueError:
+            email = userinfo.get('email')
+            email_name = email.split('@')[0]
+            username = normalizer.normalize(
+                userinfo.get('name') + email_name
+            )
+            user = api.user.create(
+                email=userinfo.get('email'),
+                username=username,
+                properties=dict(
+                    fullname=userinfo.get('name', '')
+                )
+            )
+
+        return user
 
     @staticmethod
     def __get_session():

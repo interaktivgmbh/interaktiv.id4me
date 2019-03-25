@@ -207,7 +207,13 @@ class AuthenticationUtility(object):
         return None
 
     def __get_client_name(self):
-        return self.__get_registry_value('client_name')
+        client_name = self.__get_registry_value('client_name')
+        if not client_name:
+            client_name = api.portal.get_registry_record(
+                name='plone.site_title'
+            )
+
+        return client_name
 
     def __get_client_id(self):
         return self.__get_registry_value('preferred_client_id')

@@ -11,16 +11,17 @@ setup(
     classifiers=[
         "Environment :: Web Environment",
         "Fraemwork :: Plone",
+        'Framework :: Plone :: 5.1',
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     keywords='',
-    author='',
-    author_email='',
+    author='Thomas Kastenholz',
+    author_email='thokas.id4me@kronix.eu',
     url='',
-    license='gpl',
+    license='GPL version 2',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     namespace_packages=['thokas', ],
@@ -34,12 +35,14 @@ setup(
         'Products.BeakerSessionDataManager',
         'id4me-rp-client'
     ],
-    extras_require={'test': [
-        'plone.app.testing',
-    ]},
+    extras_require={
+        'test': [
+            'plone.app.testing',
+        ]
+    },
     entry_points="""
     # -*- Entry points: -*-
     [z3c.autoinclude.plugin]
     target = plone
     """
-      )
+)

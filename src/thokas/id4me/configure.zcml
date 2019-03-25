@@ -20,6 +20,14 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="ID4me"
+        directory="profiles/uninstall"
+        description="Uninstalls the thokas.id4me package"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
     <plone:static
         type="theme"
         directory="static"

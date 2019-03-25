@@ -8,7 +8,6 @@ from id4me_rp_client import (
     ID4meClaimRequestProperties, OIDCClaim
 )
 from plone import api
-from plone.i18n.normalizer.interfaces import IIDNormalizer
 # noinspection PyProtectedMember
 from thokas.id4me import _
 from thokas.id4me.id4me_functions import load_authority_registration
@@ -107,12 +106,13 @@ class AuthenticationUtility(object):
             value=mapping
         )
 
-    def register_user(self, code):
+    def get_userinfo(self, code):
         client = self.setup_id4me_client()
 
         session = self.__get_session()
 
         id4me_authentication = session.get('id4me_authentication', ('', ''))
+        del session['id4me_authentication']
 
         ctx = client.get_rp_context(id4me=id4me_authentication[1])
         ctx.nonce = id4me_authentication[0]
@@ -120,19 +120,7 @@ class AuthenticationUtility(object):
         client.get_idtoken(context=ctx, code=code)
 
         userinfo = client.get_user_info(context=ctx)
-
-        normalizer = getUtility(IIDNormalizer)
-        username = normalizer.normalize(userinfo.get('name'))
-
-        user = api.user.create(
-            email=userinfo.get('email'),
-            username=username,
-            properties=dict(
-                fullname=userinfo.get('name', '')
-            )
-        )
-
-        return user
+        return userinfo
 
     @staticmethod
     def __get_session():

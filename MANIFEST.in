@@ -1,0 +1,6 @@
+graft src/PACKAGE_NAMESPACE
+graft docs
+include *.rst
+include *.GPL
+include *.txt
+global-exclude *.pyc

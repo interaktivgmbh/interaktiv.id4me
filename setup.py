@@ -20,7 +20,7 @@ setup(
     keywords='',
     author='Thomas Kastenholz',
     author_email='thokas.id4me@kronix.eu',
-    url='',
+    url='https://github.com/Thokas/thokas.id4me',
     license='GPL version 2',
     packages=find_packages('src'),
     package_dir={'': 'src'},

@@ -54,10 +54,13 @@ msgid "message_no_domain_provided"
 msgstr "You have not provided an ID4Me domain."
 
 msgid "message_invalid_domain_provided"
-msgstr "The provided ID4me domain ${agent} has no OpenID entry"
+msgstr "The provided ID4me domain ${agent} has no OpenID entry."
 
 msgid "message_no_user_connected"
-msgstr "No user with given ID4me found"
+msgstr "No user with given ID4me found."
+
+msgid "message_data_resetted"
+msgstr "ID4Me-Agents resetted."
 
 ######################################
 #### Authentication Form
@@ -79,6 +82,9 @@ msgstr "Connect account"
 ######################################
 msgid "ID4me Settings"
 msgstr "ID4me Settings"
+
+msgid "Reset ia data"
+msgstr "Delete ID4Me-Agents"
 
 msgid "label_client_name"
 msgstr "Client name"

@@ -23,3 +23,10 @@ Select an Client name and save.
 Usage
 -----
 link your users to the view `/@@id4me` from any navigation root
+
+Optional
+--------
+If you are using a Zeo-Cluster, you need to configure BeakerSessionManager_
+
+
+.. _BeakerSessionManager: https://pypi.org/project/Products.BeakerSessionDataManager/

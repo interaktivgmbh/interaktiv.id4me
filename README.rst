@@ -13,7 +13,7 @@ Add to your buildout.cfg: ::
 
 Then start your buildout and restart your instance
 
-go to '/prefs_install_products_form' and install "ID4Me"
+go to `/prefs_install_products_form` and install "ID4Me"
 
 Configuration
 -------------
@@ -22,4 +22,4 @@ Select an Client name and save.
 
 Usage
 -----
-link your users to the view '/@@id4me' from any navigation root
+link your users to the view `/@@id4me` from any navigation root

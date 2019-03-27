@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="interaktiv.id4me">
+
+  <browser:page
+      name="id4me"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".authenticate.ID4meView"
+      permission="zope2.View"
+  />
+
+  <browser:page
+      name="id4me-validate"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".validate.ID4meValidateView"
+      permission="zope2.View"
+  />
+
+  <!-- ID4me Control Panel -->
+  <browser:page
+      name="id4me-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.ID4meControlPanel"
+      permission="cmf.ManagePortal"
+      />
+
+</configure>

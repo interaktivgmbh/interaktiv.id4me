@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2019-03-24 20:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: Thomas Kastenholz <kastenholz@interaktiv.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: de\n"
+"Language-Name: German\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: interaktiv.id4me\n"
+
+######################################
+#### Reasons for Claims
+######################################
+msgid "reason_name"
+msgstr "Damit man sie beim Namen nennen kann"
+
+msgid "reason_email"
+msgstr "Damit man den Account anlegen kann"
+
+msgid "reason_email_verified"
+msgstr "Wir benötigen eine verifizierte Email, ansonsten müssten wir diese selbst verifizieren"
+
+msgid "reason_birthdate"
+msgstr "Damit man dir gratulieren kann"
+
+######################################
+#### Status Messages
+######################################
+msgid "message_account_created"
+msgstr "Account ${user_id} erfolgreich erstellt."
+
+msgid "message_login_successful"
+msgstr "Login erfolgreich."
+
+msgid "message_login_connected"
+msgstr "Account wurde erfolgreich mit dem ID4me Agent ${agent} verknüpft."
+
+msgid "message_login_failed"
+msgstr "Login fehlgeschlagen. Grund: ${reason}"
+
+msgid "message_register_failed"
+msgstr "Registrierung fehlgeschlagen. Grund: ${reason}"
+
+msgid "message_connect_failed"
+msgstr "Verküpfung fehlgeschlagen. Grund: ${reason}"
+
+msgid "message_no_domain_provided"
+msgstr "Du hast keine ID4me angegeben."
+
+msgid "message_invalid_domain_provided"
+msgstr "Die angegebene ID4me-Domain ${agent} hat keinen OpenID-Eintrag."
+
+msgid "message_no_user_connected"
+msgstr "Es wurde kein Benutzer für deine ID4me gefunden."
+
+msgid "message_data_resetted"
+msgstr "ID4Me-Agenten zurückgesetzt."
+
+######################################
+#### Authentication Form
+######################################
+msgid "label_id4me_domain"
+msgstr "ID4Me Domain"
+
+msgid "label_login"
+msgstr "Login"
+
+msgid "label_register"
+msgstr "Registrieren"
+
+msgid "label_connect"
+msgstr "Account verknüpfen"
+
+######################################
+#### Controlpanel
+######################################
+msgid "ID4me Settings"
+msgstr "ID4me Einstellungen"
+
+msgid "Reset ia data"
+msgstr "Lösche ID4Me-Agenten"
+
+msgid "label_client_name"
+msgstr "Client Name"
+
+msgid "help_client_name"
+msgstr "Anzeigename auf der Seite des ID4Me-Anbieters"
+
+msgid "label_preferred_client_id"
+msgstr "Client-ID"
+
+msgid "help_preferred_client_id"
+msgstr ""
+
+msgid "label_custom_logo"
+msgstr "Logo"
+
+msgid "help_custom_logo"
+msgstr "Logo auf der Seite des ID4Me-Anbieters"
+
+msgid "label_policy_url"
+msgstr "Datenschutz"
+
+msgid "help_policy_url"
+msgstr "Pfad zur Datenschutz-Bestimmung"
+
+msgid "label_tos_url"
+msgstr "Nutzungsbedingungen"
+
+msgid "help_tos_url"
+msgstr "Pfad zu den Nutzungsbedingungen"

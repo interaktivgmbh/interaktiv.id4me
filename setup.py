@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 version = '1.1.0'
 
 setup(
-    name='thokas.id4me',
+    name='interaktiv.id4me',
     version=version,
     description="",
     long_description="",
@@ -19,12 +19,12 @@ setup(
     ],
     keywords='',
     author='Thomas Kastenholz',
-    author_email='thokas.id4me@kronix.eu',
-    url='https://github.com/Thokas/thokas.id4me',
+    author_email='kastenholz@interaktiv.de',
+    url='https://github.com/interaktivgmbh/interaktiv.id4me',
     license='GPL version 2',
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    namespace_packages=['thokas', ],
+    namespace_packages=['interaktiv', ],
     include_package_data=True,
     zip_safe=False,
     install_requires=[

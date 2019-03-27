@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<registry>
+  <records interface="interaktiv.id4me.registry.id4me.IID4meSchema"/>
+  <records prefix="plone.resources/id4me-main"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="css">
+      <element>++theme++interaktiv.id4me/less/id4me.less</element>
+    </value>
+  </records>
+
+  <!-- Bundle definition -->
+  <records prefix="plone.bundles/plone"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources" purge="false">
+      <element>id4me-main</element>
+    </value>
+  </records>
+</registry>

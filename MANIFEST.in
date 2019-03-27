@@ -1,2 +1,2 @@
-graft src/thokas.id4me
+graft src/interaktiv.id4me
 global-exclude *.pyc

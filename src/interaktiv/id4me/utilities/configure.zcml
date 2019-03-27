@@ -1,0 +1,8 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="interaktiv.id4me">
+
+    <utility factory="interaktiv.id4me.utilities.authentication.AuthenticationUtility"
+             provides="interaktiv.id4me.utilities.authentication.IAuthenticationUtility"/>
+
+</configure>

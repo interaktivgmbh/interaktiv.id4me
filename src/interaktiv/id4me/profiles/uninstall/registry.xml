@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<registry>
+  <records interface="interaktiv.id4me.registry.id4me.IID4meSchema" remove="true"/>
+</registry>

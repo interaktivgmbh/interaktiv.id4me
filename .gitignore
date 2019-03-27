@@ -1,6 +1,6 @@
 .eggs/
 *.pyc
-thokas.id4me.egg-info/
+interaktiv.id4me.egg-info/
 *.mo
 dist/
 build/

@@ -3,11 +3,15 @@ from setuptools import setup, find_packages
 
 version = '1.1.0'
 
+long_description = (
+    open('README.rst').read()
+)
+
 setup(
     name='interaktiv.id4me',
     version=version,
-    description="",
-    long_description="",
+    description="ID4Me Plugin for Plone 5.x",
+    long_description=long_description,
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
